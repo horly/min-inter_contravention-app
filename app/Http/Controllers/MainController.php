@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FormDataContravention;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
@@ -21,6 +23,21 @@ class MainController extends Controller
 
     public function createContravention()
     {
-        return view('main.create-contravention');
+        $infractions = DB::table('infractions')->orderBy('name', 'asc')->get();
+        $typeVehicules = DB::table('type_vehicules')->orderBy('name', 'asc')->get();
+
+        return view('main.create-contravention', compact('infractions', 'typeVehicules'));
+    }
+
+    /**
+     * - php artisan make:request FormDataContravention
+     *
+     *  Emplacement :
+     *  App\Http\Requests\FormDataContravention
+     */
+    public function addContravention(FormDataContravention $requestForm)
+    {
+        dd($requestForm->all());
+        
     }
 }

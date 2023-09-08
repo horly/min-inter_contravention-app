@@ -8,6 +8,7 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -48,7 +49,15 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::registerView(function () {
-            return view('auth.register');
+            $grades = DB::table('grades')
+                            ->orderBy('name', 'asc')
+                            ->get();
+
+            $policePostes = DB::table('police_postes')
+                            ->orderBy('name', 'asc')
+                            ->get();
+
+            return view('auth.register', compact('grades', 'policePostes'));
         });
     }
 }

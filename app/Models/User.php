@@ -20,10 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'grade',
         'matricule',
-        'poste_police',
         'password',
+        'id_grade',
+        'id_poste',
     ];
 
     /**
@@ -34,7 +34,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'id_grade',
     ];
 
     /**
@@ -51,5 +50,11 @@ class User extends Authenticatable
     function grade()
     {
         return $this->belongsTo('App\Models\Grade', 'id_grade');
+    }
+
+    /** Un user est affecté un poste de police */
+    function policePoste()
+    {
+        return $this->belongsTo('App\Models\PolicePoste', 'id_poste');
     }
 }

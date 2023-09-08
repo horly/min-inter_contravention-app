@@ -10,11 +10,11 @@ class Vehicule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'marque',
         'model',
         'num_matricule',
         'usage',
+        'id_type',
         'id_contrevenant',
     ];
 
@@ -28,5 +28,11 @@ class Vehicule extends Model
     public function amande()
     {
         return $this->hasMany('App\Models\Amande');
+    }
+
+    /** Un véhicule appartient à un type */
+    function type()
+    {
+        return $this->belongsTo('App\Models\TypeVehicule', 'id_type');
     }
 }

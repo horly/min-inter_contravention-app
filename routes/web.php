@@ -28,4 +28,5 @@ Route::controller(MainController::class)->group(function(){
         Route::match(['get', 'post'], '/main', 'main')->name('app_main');
         Route::match(['get', 'post'], 'create_contravention', 'createContravention')->name('app_create_contravention');
     });
+    Route::post('/add_contravention', 'addContravention')->name('app_add_contravention');
 });
