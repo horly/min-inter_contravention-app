@@ -26,7 +26,8 @@ Route::controller(LoginController::class)->group(function(){
 Route::controller(MainController::class)->group(function(){
     Route::middleware('auth')->group(function(){
         Route::match(['get', 'post'], '/main', 'main')->name('app_main');
-        Route::match(['get', 'post'], 'create_contravention', 'createContravention')->name('app_create_contravention');
+        Route::match(['get', 'post'], '/create_contravention', 'createContravention')->name('app_create_contravention');
+        Route::match(['get', 'post'], '/info_contravention/{id:int}', 'infoContravention')->name('app_info_contravention');
     });
     Route::post('/add_contravention', 'addContravention')->name('app_add_contravention');
 });

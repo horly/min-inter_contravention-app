@@ -22,4 +22,10 @@ class Contrevenant extends Model
     {
         return $this->hasMany('App\Models\Vehicule');
     }
+
+    /** Un contrevenant possède plusieurs amandes */
+    public function amande()
+    {
+        return $this->hasMany('App\Models\Amande');
+    }
 }

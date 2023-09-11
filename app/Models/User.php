@@ -57,4 +57,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\PolicePoste', 'id_poste');
     }
+
+    /** Un user peut être affecté à plusieurs amandes */
+    public function amande()
+    {
+        return $this->hasMany('App\Models\Amande');
+    }
 }

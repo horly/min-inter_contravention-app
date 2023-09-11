@@ -14,6 +14,8 @@ class Amande extends Model
         'montant',
         'id_vehicule',
         'id_infraction',
+        'id_user',
+        'id_contre',
     ];
 
     /** Une amande appartient à un véhicule */
@@ -27,4 +29,16 @@ class Amande extends Model
     {
         return $this->belongsTo('App\Models\Infraction', 'id_infraction');
     }
+
+    /** Une amande est affecté un user */
+    function user()
+    {
+        return $this->belongsTo('App\Models\User', 'id_user');
+    }
+
+     /** Une amande est affecté un contrevenant */
+     function contrevenant()
+     {
+         return $this->belongsTo('App\Models\Contrevenant', 'id_contre');
+     }
 }
