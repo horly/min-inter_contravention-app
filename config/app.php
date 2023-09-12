@@ -18,6 +18,12 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'email' => env('MAIL_FROM_ADDRESS', ''),
+    'mail_username' => env('MAIL_USERNAME', ''),
+    'mail_password' => env('MAIL_PASSWORD', ''),
+    'mail_port' => env('MAIL_PORT', ''),
+    'mail_host' => env('MAIL_HOST', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

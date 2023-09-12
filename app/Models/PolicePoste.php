@@ -18,4 +18,10 @@ class PolicePoste extends Model
     {
         return $this->hasMany('App\Models\User');
     }
+
+    /** Un poste de police possède à plusieurs amandes */
+    public function amandes()
+    {
+        return $this->hasMany('App\Models\Amande');
+    }
 }

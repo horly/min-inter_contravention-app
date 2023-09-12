@@ -16,6 +16,7 @@ class Amande extends Model
         'id_infraction',
         'id_user',
         'id_contre',
+        'id_poste',
     ];
 
     /** Une amande appartient à un véhicule */
@@ -40,5 +41,11 @@ class Amande extends Model
      function contrevenant()
      {
          return $this->belongsTo('App\Models\Contrevenant', 'id_contre');
+     }
+
+     /** Une amande est établi dans un poste */
+     function poste()
+     {
+         return $this->belongsTo('App\Models\PolicePoste', 'id_poste');
      }
 }

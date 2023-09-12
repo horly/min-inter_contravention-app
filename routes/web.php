@@ -30,4 +30,10 @@ Route::controller(MainController::class)->group(function(){
         Route::match(['get', 'post'], '/info_contravention/{id:int}', 'infoContravention')->name('app_info_contravention');
     });
     Route::post('/add_contravention', 'addContravention')->name('app_add_contravention');
+    Route::match(['get', 'post'], '/payment_link/{token}', 'paymentLink')->name('app_payment_link');
+    Route::post('/send_payment_link', 'sendPaymentLink')->name('app_send_payment_link');
+    Route::post('/check_payment_code', 'checkPaymentCode')->name('app_check_payment_code');
+    Route::match(['get', 'post'], '/paiement_page/{id:int}', 'paymentPage')->name('app_paiement_page');
+    Route::get('/mobile_paiement_page/{id:int}', 'mobilePaymentPage')->name('app_mobile_paiement_page');
+    Route::post('/mobile_payment_process', 'mobilePaymentProcess')->name('app_mobile_payment_process');
 });

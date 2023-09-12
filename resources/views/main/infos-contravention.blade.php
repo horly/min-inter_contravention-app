@@ -15,6 +15,9 @@
         </ol>
     </nav>
 
+    {{-- On inlut les messages flash--}}
+    @include('message.flash-message')
+
     <div class="border p-5 bg-body-tertiary">
         <div class="border-bottom mb-4 fw-bold">
             Information sur l'agent 
@@ -146,6 +149,21 @@
             </div>
         </div>
 
+        <div class="mb-4 row">
+            <label class="col-sm-6 col-form-label">
+                <i class="fa-solid fa-circle-check"></i>&nbsp;&nbsp;&nbsp;Status
+            </label>
+            <div class="col-sm-6">
+                <p class="fw-bold">
+                    @if ($amande->status == "NO_PAIED" )
+                        <p class="text-danger fw-bold"><i class="fa-solid fa-circle-xmark"></i> Non payé</p>
+                    @else
+                        <p class="text-success fw-bold"><i class="fa-solid fa-circle-check text-success"></i> Payé</p>
+                    @endif
+                </p>
+            </div>
+        </div>
+
         @php
             $vehicules = DB::table('vehicules')->where('id', $amande->id_vehicule)->first(); 
             $type_vehicules = DB::table('type_vehicules')->where('id', $vehicules->id_type)->first(); 
@@ -203,19 +221,47 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        Modifier
-                    </button>
+                    @if ($amande->status == "NO_PAIED" && Auth::user()->id == $amande->id_user)
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Modifier
+                        </button>
+                    @else
+                        <button class="btn btn-primary" type="button" disabled>
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Modifier
+                        </button>
+                    @endif
                 </div> 
             </div>
             <div class="col-md-6">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-message"></i>
-                        Rappeller
-                    </button>
-                </div> 
+                @if ($amande->status == "NO_PAIED")
+                    <form action="{{ route('app_send_payment_link') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="amandeId" value="{{ $amande->id }}">
+                        <input type="hidden" name="infractionId" value="{{ $infractions->id }}">  
+                        <input type="hidden" name="contrevenantId" value="{{ $contrevenants->id }}"> 
+                        <input type="hidden" name="vehiculeId" value="{{ $vehicules->id }}">
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary save" type="submit">
+                                <i class="fa-solid fa-message"></i>
+                                Enoyer un rappel
+                            </button>
+                            <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                                <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                                <span role="status">Chargement...</span>
+                            </button>
+                        </div> 
+                    </form>
+                @else
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="button" disabled>
+                            <i class="fa-solid fa-message"></i>
+                            Enoyer un rappel
+                        </button>
+                    </div> 
+                @endif
             </div>
         </div>
 

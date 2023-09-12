@@ -201,8 +201,12 @@
             </div>
 
             <div class="d-grid gap-2">
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary save" type="submit">
                 Enregistrer
+                </button>
+                <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                    <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                    <span role="status">Chargement...</span>
                 </button>
             </div> 
 

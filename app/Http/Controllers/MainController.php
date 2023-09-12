@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormDataContravention;
+use App\Http\Requests\FormMobilePhonePayement;
 use App\Models\Amande;
 use App\Models\Contrevenant;
 use App\Models\PolicePoste;
 use App\Models\Vehicule;
+use App\Services\Email\Email;
+use DateTimeImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,22 +18,22 @@ class MainController extends Controller
 {
     //
     protected $request;
+    protected $email;
     
-    function __construct(Request $request)
+    function __construct(Request $request, Email $email)
     {
         $this->request = $request;
+        $this->email = $email;
     }
 
     public function main()
     {
         $user = Auth::user();
-        $poste = DB::table('police_postes')->where('id', $user->id_poste)->first();
 
         //dd($user->id_poste);
 
         $amandeByPost = DB::table('amandes')
-                        ->join('users', 'amandes.id_user', '=', 'users.id')
-                        ->where('users.id_poste', $poste->id)
+                        ->where('id_poste', $user->id_poste)
                         ->orderBy('amandes.id', 'desc')
                         ->get();
 
@@ -68,7 +71,7 @@ class MainController extends Controller
         $contre_phone = $requestForm->input('contre_phone');
         $contre_email = $requestForm->input('contre_email');
 
-        $infraction = $requestForm->input('infraction');
+        $infractionId = $requestForm->input('infraction');
         $devise = $requestForm->input('devise');
         $montant = $requestForm->input('montant');
 
@@ -98,11 +101,18 @@ class MainController extends Controller
         $amande = Amande::create([
             'devise' => $devise,
             'montant' => $montant,
-            'id_infraction' => $infraction,
+            'id_infraction' => $infractionId,
             'id_vehicule' => $vehicule->id,
             'id_user' => $user->id,
             'id_contre' => $contrevenant->id,
+            'id_poste' => $user->id_poste,
         ]);
+
+        $infraction = DB::table('infractions')
+                        ->where('id', $infractionId)
+                        ->first();
+
+        $this->email->sendLinkPayment($contrevenant, $infraction, $amande, $vehicule);
 
         return redirect()->route('app_main')->with('success', 'Contravention ajouté avec succès!');
     }
@@ -114,5 +124,101 @@ class MainController extends Controller
                     ->first();
 
         return view('main.infos-contravention', compact('amande'));
+    }
+
+    public function sendPaymentLink()
+    {
+        //
+        $amandeId = $this->request->input('amandeId');
+        $infractionId = $this->request->input('infractionId');
+        $contrevenantId = $this->request->input('contrevenantId'); 
+        $vehiculeId = $this->request->input('vehiculeId');
+
+        $amande = DB::table('amandes')
+                        ->where('id', $amandeId)
+                        ->first();
+
+        $infraction = DB::table('infractions')
+                        ->where('id', $infractionId)
+                        ->first();
+
+        $contrevenant = DB::table('contrevenants')
+                        ->where('id', $contrevenantId)
+                        ->first();
+        
+        $vehicule = DB::table('vehicules')
+                        ->where('id', $vehiculeId)
+                        ->first();
+        
+        $this->email->sendLinkPayment($contrevenant, $infraction, $amande, $vehicule);
+
+        return redirect()->back()->with('success', 'Rappel envoyé avec succès au contrevenant!');;
+
+        //dd($amande);
+    }
+
+    public function paymentLink($token)
+    {
+        return view('main.payment-link-contravention', compact('token'));
+    }
+
+    public function checkPaymentCode()
+    {
+        $token = $this->request->input('token');
+        $code = $this->request->input('code');
+
+        $amande = DB::table('amandes')
+                    ->where([
+                        'code' => $code,
+                        'token' => $token
+                    ])->first();
+
+        if($amande){
+            return redirect()->route('app_paiement_page', [
+                'id' => $amande->id
+            ]);
+        }else{
+            return redirect()->back()->with([
+                'danger' => 'Le code renseigné ne correspond à aucun paiement!',
+                'code' => $code,
+            ]);
+        }
+    }
+
+    public function paymentPage($id)
+    {
+        $amande = DB::table('amandes')
+                ->where('id', $id)
+                ->first();
+
+        return view('main.paiement-page', compact('amande'));
+    }
+
+    public function mobilePaymentPage($id)
+    {
+        $amande = DB::table('amandes')
+                ->where('id', $id)
+                ->first();
+
+        return view('main.mobile-paiement-page', compact('amande'));
+    }
+
+    public function mobilePaymentProcess(FormMobilePhonePayement $formmMobile)
+    {
+        $mobile_network = $formmMobile->input('mobile_network');
+        $mobile_phone = $formmMobile->input('mobile_phone');
+
+        $id = $formmMobile->input('id');
+
+        DB::table('amandes')
+            ->where('id', $id)
+            ->update([
+                'status' => "PAIED",
+                'updated_at' => new \DateTimeImmutable
+        ]);
+
+        return redirect()->route('app_paiement_page', [
+            'id' => $id
+        ])->with('success', 'Paiement effectué avec succès!');
     }
 }
