@@ -77,7 +77,7 @@
                   <td>{{ $loop->iteration }}</td>
                   <td>{{ $user->name }}</td>
                   <td>{{ $contrevenant->name }}</td>
-                  <td>{{  (strlen($infraction->name) > 23) ? substr($infraction->name,0,20).'...' : $infraction->name }}</td>
+                  <td>{{  (strlen($infraction->name) > 53) ? substr($infraction->name,0,50).'...' : $infraction->name }}</td>
                   <td class="text-end">{{ $amandesp->montant }} {{ $amandesp->devise }}</td>
                   <td>
                     @if ($amandesp->status == "NO_PAIED")

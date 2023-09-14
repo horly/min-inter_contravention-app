@@ -89,14 +89,37 @@ class MainController extends Controller
             'email' => $contre_email,
         ]);
 
-        $vehicule = Vehicule::create([
-            'marque' => $marque,
-            'model' => $modele,
-            'num_matricule' => $matricule_vehicule, 
-            'usage' => $usage_vehicule,
-            'id_type' => $type_vehicule,
-            'id_contrevenant' => $contrevenant->id,
-        ]);
+        $vehiculeExist = DB::table('vehicules')->where('num_matricule', $matricule_vehicule)->first();
+        $vehicule = null;
+
+        if($vehiculeExist)
+        {
+            DB::table('vehicules')
+                ->where('num_matricule', $matricule_vehicule)
+                ->update([
+                    'marque' => $marque,
+                    'model' => $modele, 
+                    'usage' => $usage_vehicule,
+                    'id_type' => $type_vehicule,
+                    'id_contrevenant' => $contrevenant->id,
+                    'updated_at' => new \DateTimeImmutable,
+            ]);
+
+            $vehicule = DB::table('vehicules')->where('num_matricule', $matricule_vehicule)->first();
+        }
+        else
+        {
+            $vehicule = Vehicule::create([
+                'marque' => $marque,
+                'model' => $modele,
+                'num_matricule' => $matricule_vehicule, 
+                'usage' => $usage_vehicule,
+                'id_type' => $type_vehicule,
+                'id_contrevenant' => $contrevenant->id,
+            ]);   
+        }
+
+        //dd($vehicule);
 
         $amande = Amande::create([
             'devise' => $devise,
@@ -220,5 +243,30 @@ class MainController extends Controller
         return redirect()->route('app_paiement_page', [
             'id' => $id
         ])->with('success', 'Paiement effectué avec succès!');
+    }
+
+    public function vehiculeDb()
+    {
+        $user = Auth::user();
+        $vehiculesAll = DB::table('vehicules')->orderBy('id', 'desc')->get();
+        $vehiculesPoste = DB::table('vehicules')
+                            ->join('amandes', 'amandes.id_vehicule', '=', 'vehicules.id')
+                            ->where('amandes.id_poste', $user->id_poste)
+                            ->orderBy('vehicules.id', 'desc')
+                            ->get();
+
+        //éviter les duplications
+        $vehiculesPoste = $vehiculesPoste->unique('marque');
+
+        return view('main.vehicule-db', compact('vehiculesAll', 'vehiculesPoste'));
+    }
+
+    public function vehiculeInfo($num_matricule)
+    {
+        $vehicules = DB::table('vehicules')->where('num_matricule', $num_matricule)->first();
+
+        //dd($vehicules);
+
+        return view('main.vehicule-info', compact('vehicules'));
     }
 }

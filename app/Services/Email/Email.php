@@ -104,7 +104,7 @@ class Email
         }
 
         DB::table('amandes')
-            ->where('id', $contrevenant->id)
+            ->where('id_contre', $contrevenant->id)
             ->update([
                 'code' => $code,
                 'token' => $token

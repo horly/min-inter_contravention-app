@@ -5,3 +5,11 @@
 .title-register {
     margin-bottom: 50px;
 }
+
+#nav-login-dropdown{
+    width: 300px !important;
+}
+
+#nav-login-dropdown i {
+    width: 30px;
+}

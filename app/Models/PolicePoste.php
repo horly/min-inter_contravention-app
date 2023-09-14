@@ -9,6 +9,8 @@ class PolicePoste extends Model
 {
     use HasFactory;
 
+    protected $table = "police_postes";
+
     protected $fillable = [
         'name',
     ];

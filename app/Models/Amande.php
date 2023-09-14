@@ -9,6 +9,8 @@ class Amande extends Model
 {
     use HasFactory;
 
+    protected $table = "amandes";
+
     protected $fillable = [
         'devise',
         'montant',

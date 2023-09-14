@@ -9,6 +9,8 @@ class Infraction extends Model
 {
     use HasFactory;
 
+    protected $table = "infractions";
+
     protected $fillable = [
         'name',
     ];

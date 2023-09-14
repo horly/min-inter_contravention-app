@@ -9,6 +9,8 @@ class Contrevenant extends Model
 {
     use HasFactory;
 
+    protected $table = "contrevenants";
+
     protected $fillable = [
         'name',
         'num_id',
