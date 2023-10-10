@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Contrevenant extends Model
+class Proprietaire extends Model
 {
     use HasFactory;
 
-    protected $table = "contrevenants";
+    protected $table = "proprietaires";
 
     protected $fillable = [
         'name',
@@ -25,9 +25,4 @@ class Contrevenant extends Model
         return $this->hasMany('App\Models\Vehicule');
     }
 
-    /** Un contrevenant possède plusieurs amandes */
-    public function amande()
-    {
-        return $this->hasMany('App\Models\Amande');
-    }
 }

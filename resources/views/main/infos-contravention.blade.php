@@ -26,7 +26,7 @@
         @php
             //$user = App\Models\User::where('id', $amandesp->id_user)->get();
             $user = DB::table('users')->where('id', $amande->id_user)->first();
-            $contrevenant = DB::table('contrevenants')->where('id', $amande->id_contre)->first();
+            $conducteur = DB::table('conducteurs')->where('id', $amande->id_conduct)->first();
             $infraction = DB::table('infractions')->where('id',$amande->id_infraction)->first();
 
             $grade = DB::table('grades')->where('id', $user->id_grade)->first();
@@ -35,7 +35,7 @@
         @endphp
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;Nom/Postnom/Prénom
             </label>
             <div class="col-sm-6">
@@ -44,7 +44,7 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-certificate"></i>&nbsp;&nbsp;&nbsp;Grade
             </label>
             <div class="col-sm-6">
@@ -53,7 +53,7 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-id-card-clip"></i>&nbsp;&nbsp;&nbsp;Matricule
             </label>
             <div class="col-sm-6">
@@ -62,64 +62,11 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-house-lock"></i>&nbsp;&nbsp;&nbsp;Poste de police
             </label>
             <div class="col-sm-6">
                 <p class="fw-bold text-primary">{{ $policePoste->name }}</p>
-            </div>
-        </div>
-
-        @php
-           $contrevenants = DB::table('contrevenants')->where('id', $amande->id_contre)->first(); 
-        @endphp
-
-        <div class="border-bottom mb-4 fw-bold">
-            Information sur le contrevenant 
-        </div>
-
-        <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
-                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;Nom/Postnom/Prénom
-            </label>
-            <div class="col-sm-6">
-                <p class="fw-bold text-primary">{{ $contrevenants->name }}</p>
-            </div>
-        </div>
-
-        <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
-                <i class="fa-solid fa-address-card"></i>&nbsp;&nbsp;&nbsp;Numéro pièce d'identité
-            </label>
-            <div class="col-sm-6">
-                <p class="fw-bold text-primary">{{ $contrevenants->num_id }}</p>
-            </div>
-        </div>
-
-        <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
-                <i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;&nbsp;Adresse
-            </label>
-            <div class="col-sm-6">
-                <p class="fw-bold text-primary">{{ $contrevenants->address }}</p>
-            </div>
-        </div>
-
-        <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
-                <i class="fa-solid fa-square-phone"></i>&nbsp;&nbsp;&nbsp;Numéro de téléphone
-            </label>
-            <div class="col-sm-6">
-                <p class="fw-bold text-primary">{{ $contrevenants->phone }}</p>
-            </div>
-        </div>
-
-        <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
-                <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;&nbsp;Email
-            </label>
-            <div class="col-sm-6">
-                <p class="fw-bold text-primary">{{ $contrevenants->email }}</p>
             </div>
         </div>
 
@@ -132,7 +79,7 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-triangle-exclamation"></i>&nbsp;&nbsp;&nbsp;Infraction commise
             </label>
             <div class="col-sm-6">
@@ -141,16 +88,16 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-money-bill"></i>&nbsp;&nbsp;&nbsp;Montant
             </label>
             <div class="col-sm-6">
-                <p class="fw-bold text-primary">{{ $amande->montant }} {{ $amande->devise }}</p>
+                <p class="fw-bold text-primary">{{ $amande->montant }} USD</p>
             </div>
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-circle-check"></i>&nbsp;&nbsp;&nbsp;Status
             </label>
             <div class="col-sm-6">
@@ -174,7 +121,7 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-car-side"></i>&nbsp;&nbsp;&nbsp;Type
             </label>
             <div class="col-sm-6">
@@ -183,7 +130,7 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-car"></i>&nbsp;&nbsp;&nbsp;Marque
             </label>
             <div class="col-sm-6">
@@ -192,7 +139,7 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-car-rear"></i>&nbsp;&nbsp;&nbsp;Modèle
             </label>
             <div class="col-sm-6">
@@ -201,7 +148,7 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-barcode"></i>&nbsp;&nbsp;&nbsp;Numéro de matricule
             </label>
             <div class="col-sm-6">
@@ -210,13 +157,136 @@
         </div>
 
         <div class="mb-4 row">
-            <label class="col-sm-6 col-form-label">
+            <label class="col-sm-6">
                 <i class="fa-solid fa-hand"></i>&nbsp;&nbsp;&nbsp;Usage
             </label>
             <div class="col-sm-6">
                 <p class="fw-bold text-primary">{{ $vehicules->usage }}</p>
             </div>
         </div>
+
+        <div class="row mb-4">
+            @php
+                $proprietaires = DB::table('proprietaires')->where('id', $vehicules->id_prop)->first(); 
+            @endphp
+
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">Propriétaire du véhicule</div>
+                    <div class="card-body p-5">
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;Nom/Postnom/Prénom
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $proprietaires->name }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-address-card"></i>&nbsp;&nbsp;&nbsp;Numéro pièce d'identité
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $proprietaires->num_id }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;&nbsp;Adresse
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $proprietaires->address }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-square-phone"></i>&nbsp;&nbsp;&nbsp;Numéro de téléphone
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $proprietaires->phone }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;&nbsp;Email
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $proprietaires->email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @php
+                $contrevenants = DB::table('conducteurs')->where('id', $amande->id_conduct)->first(); 
+            @endphp
+
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">Conducteur du véhicule</div>
+                    <div class="card-body p-5">
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;Nom/Postnom/Prénom
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $contrevenants->name }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-address-card"></i>&nbsp;&nbsp;&nbsp;Numéro pièce d'identité
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $contrevenants->num_id }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;&nbsp;Adresse
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $contrevenants->address }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-square-phone"></i>&nbsp;&nbsp;&nbsp;Numéro de téléphone
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $contrevenants->phone }}</p>
+                            </div>
+                        </div>
+                
+                        <div class="mb-4 row">
+                            <label class="col-sm-6">
+                                <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;&nbsp;Email
+                            </label>
+                            <div class="col-sm-6">
+                                <p class="fw-bold text-primary">{{ $contrevenants->email }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        
+
+        
+
+        
 
         <div class="row">
             <div class="col-md-6">
@@ -241,7 +311,8 @@
                         <input type="hidden" name="amandeId" value="{{ $amande->id }}">
                         <input type="hidden" name="infractionId" value="{{ $infractions->id }}">  
                         <input type="hidden" name="contrevenantId" value="{{ $contrevenants->id }}"> 
-                        <input type="hidden" name="vehiculeId" value="{{ $vehicules->id }}">
+                        <input type="hidden" name="vehiculeId" value="{{ $vehicules->id }}"> 
+                        <input type="hidden" name="proprietairesId" value="{{ $proprietaires->id }}">
 
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary save" type="submit">

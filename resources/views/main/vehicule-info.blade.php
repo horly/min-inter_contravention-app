@@ -75,6 +75,55 @@
         </div>
 
         <div class="border-bottom mb-4 fw-bold">
+            Information sur le propriétaire
+        </div>
+
+        <div class="mb-4 row">
+            <label class="col-sm-6 col-form-label">
+                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;Nom complet
+            </label>
+            <div class="col-sm-6">
+                <p class="fw-bold text-primary">{{ $proprietaire->name }}</p>
+            </div>
+        </div>
+
+        <div class="mb-4 row">
+            <label class="col-sm-6 col-form-label">
+                <i class="fa-solid fa-id-card"></i>&nbsp;&nbsp;&nbsp;Numéro pièce d'identité
+            </label>
+            <div class="col-sm-6">
+                <p class="fw-bold text-primary">{{ $proprietaire->num_id }}</p>
+            </div>
+        </div>
+
+        <div class="mb-4 row">
+            <label class="col-sm-6 col-form-label">
+                <i class="fa-solid fa-phone"></i>&nbsp;&nbsp;&nbsp;Numéro de téléphone
+            </label>
+            <div class="col-sm-6">
+                <p class="fw-bold text-primary">{{ $proprietaire->phone }}</p>
+            </div>
+        </div>
+
+        <div class="mb-4 row">
+            <label class="col-sm-6 col-form-label">
+                <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;&nbsp;Email
+            </label>
+            <div class="col-sm-6">
+                <p class="fw-bold text-primary">{{ $proprietaire->email }}</p>
+            </div>
+        </div>
+
+        <div class="mb-4 row">
+            <label class="col-sm-6 col-form-label">
+                <i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;&nbsp;Adresse
+            </label>
+            <div class="col-sm-6">
+                <p class="fw-bold text-primary">{{ $proprietaire->address }}</p>
+            </div>
+        </div>
+
+        <div class="border-bottom mb-4 fw-bold">
             Liste des amandes liée au véhicule
         </div>
 
@@ -87,7 +136,7 @@
                 <thead>
                     <th>N°</th>
                     <th>Nom de l'agent</th>
-                    <th>Nom du contrevenant</th>
+                    <th>Nom du conducteur</th>
                     <th>Infraction commise</th>
                     <th class="text-end">Montant</th>
                     <th>Status</th>
@@ -99,7 +148,7 @@
                         @php
                             //$user = App\Models\User::where('id', $amandesp->id_user)->get();
                             $user = DB::table('users')->where('id', $amande->id_user)->first();
-                            $contrevenant = DB::table('contrevenants')->where('id', $amande->id_contre)->first();
+                            $contrevenant = DB::table('conducteurs')->where('id', $amande->id_conduct)->first();
                             $infraction = DB::table('infractions')->where('id',$amande->id_infraction)->first();
 
                             //dd($user[0])

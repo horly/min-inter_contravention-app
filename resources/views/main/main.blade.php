@@ -30,27 +30,26 @@
             <thead>
                 <th>N°</th>
                 <th>Nom de l'agent</th>
-                <th>Nom du contrevenant</th>
+                <th>Nom du conducteur</th>
                 <th>Infraction commise</th>
                 <th class="text-end">Montant</th>
                 <th>Status</th>
                 <th>Action</th>
             </thead>
             <tbody>
-              @if (Auth::user()->role == "ADMIN")
                 @foreach ($amandes as $amande)
                 <tr>
                   @php
                     //$user = App\Models\User::where('id', $amandesp->id_user)->get();
                     $user = DB::table('users')->where('id', $amande->id_user)->first();
-                    $contrevenant = DB::table('contrevenants')->where('id', $amande->id_contre)->first();
-                    $infraction = DB::table('infractions')->where('id',$amande->id_infraction)->first();
+                    $conducteur = DB::table('conducteurs')->where('id', $amande->id_conduct)->first();
+                    $infraction = DB::table('infractions')->where('id', $amande->id_infraction)->first();
 
                     //dd($user[0])
                   @endphp
                   <td>{{ $loop->iteration }}</td>
                   <td>{{ $user->name }}</td>
-                  <td>{{ $contrevenant->name }}</td>
+                  <td>{{ $conducteur->name }}</td>
                   <td>{{ (strlen($infraction->name) > 23) ? substr($infraction->name,0,20).'...' : $infraction->name }}</td>
                   <td class="text-end">{{ $amande->montant }} {{ $amande->devise }}</td>
                   <td>
@@ -63,33 +62,7 @@
                   <td><a href="{{ route('app_info_contravention', ['id' => $amande->id ]) }}">Voir</a></td>
                 </tr>
               @endforeach
-              @else
-                @foreach ($amandeByPost as $amandesp)
-                <tr>
-                  @php
-                    //$user = App\Models\User::where('id', $amandesp->id_user)->get();
-                    $user = DB::table('users')->where('id', $amandesp->id_user)->first();
-                    $contrevenant = DB::table('contrevenants')->where('id', $amandesp->id_contre)->first();
-                    $infraction = DB::table('infractions')->where('id',$amandesp->id_infraction)->first();
-
-                    //dd($user[0])
-                  @endphp
-                  <td>{{ $loop->iteration }}</td>
-                  <td>{{ $user->name }}</td>
-                  <td>{{ $contrevenant->name }}</td>
-                  <td>{{  (strlen($infraction->name) > 53) ? substr($infraction->name,0,50).'...' : $infraction->name }}</td>
-                  <td class="text-end">{{ $amandesp->montant }} {{ $amandesp->devise }}</td>
-                  <td>
-                    @if ($amandesp->status == "NO_PAIED")
-                      <p class="text-danger"><i class="fa-solid fa-circle-xmark"></i> Non payé</p>
-                    @else
-                      <p class="text-success"><i class="fa-solid fa-circle-check text-success"></i> Payé</p>
-                    @endif
-                </td>
-                  <td><a href="{{ route('app_info_contravention', ['id' => $amandesp->id ]) }}">Voir</a></td>
-                </tr>
-                @endforeach
-              @endif
+  
                 
             </tbody>
           </table>

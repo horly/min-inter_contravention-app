@@ -17,13 +17,13 @@ class Vehicule extends Model
         'num_matricule',
         'usage',
         'id_type',
-        'id_contrevenant',
+        'id_prop',
     ];
 
     /** Un véhicule appartient à un contrevenant */
     function contrevenant()
     {
-        return $this->belongsTo('App\Models\Contrevenant', 'id_contrevenant');
+        return $this->belongsTo('App\Models\Proprietaire', 'id_prop');
     }
 
     /** Un véhicule possède plusieurs infractions */
@@ -36,5 +36,11 @@ class Vehicule extends Model
     function type()
     {
         return $this->belongsTo('App\Models\TypeVehicule', 'id_type');
+    }
+
+    /** Un véhicule est conduit par plusieurs conducteurs */
+    public function conducteur()
+    {
+        return $this->hasMany('App\Models\Conducteur');
     }
 }

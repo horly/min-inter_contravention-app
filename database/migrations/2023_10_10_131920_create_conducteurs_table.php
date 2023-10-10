@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicules', function (Blueprint $table) {
+        Schema::create('conducteurs', function (Blueprint $table) {
             $table->id();
-            $table->string('marque', 255);
-            $table->string('model', 255);
-            $table->string('num_matricule', 255);
-            $table->string('usage', 255);
-
-            $table->bigInteger('id_prop')->unsigned()->index();
-            $table->foreign('id_prop')
-                    ->references('id')->on('proprietaires')
+            $table->string('name', 255);
+            $table->string('num_id', 255);
+            $table->string('address', 255);
+            $table->string('phone', 255);
+            $table->string('email', 255);
+            $table->bigInteger('id_vehicule')->unsigned()->index();
+            $table->foreign('id_vehicule')
+                    ->references('id')->on('vehicules')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
-
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicules');
+        Schema::dropIfExists('conducteurs');
     }
 };

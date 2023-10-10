@@ -79,32 +79,21 @@ class Email
         }*/
     }
 
-    public function sendLinkPayment($contrevenant, $infraction, $amande, $vehicule)
+    public function sendLinkPayment($conducteurs, $infraction, $amande, $vehicule, $token, $code)
     {
-        $name = $contrevenant->name;
-        $email = $contrevenant->email;
+        $name = $conducteurs->name;
+        $email = $conducteurs->email;
 
         $infractionName = $infraction->name;
 
         $montant = $amande->montant;
-        $devise = $amande->devise;
 
         $vehiculeMaque = $vehicule->marque;
         $vehiculeModele = $vehicule->model;
         $numMatricule = $vehicule->num_matricule;
 
-        //on génère de nombre aleotoire de 6 chiffres si l'utilisateur choisie de copier coller le code
-        $code = "";
-        $longeur_code = 6;
-        $token = md5(uniqid()) . $contrevenant->id . sha1($contrevenant->email);
-
-        for($i = 0; $i < $longeur_code; $i++)
-        {
-            $code .= mt_rand(0,9);
-        }
-
         DB::table('amandes')
-            ->where('id_contre', $contrevenant->id)
+            ->where('id_vehicule', $vehicule->id)
             ->update([
                 'code' => $code,
                 'token' => $token
@@ -124,7 +113,7 @@ class Email
                         'token' => $token, 
                         'infractionName' => $infractionName,
                         'montant' => $montant,
-                        'devise' => $devise,
+                        'devise' => 'USD',
                         'vehiculeMaque' => $vehiculeMaque,
                         'vehiculeModele' => $vehiculeModele,
                         'numMatricule' => $numMatricule,
@@ -132,5 +121,50 @@ class Email
             ]);
 
         $this->sendHtmlEmail($subject, $email, $name, $message);
+    }
+
+    public function sendDoubleLinkPayment($conducteurs, $proprietaire, $infraction, $amande, $vehicule, $token, $code)
+    {
+        $name = $conducteurs->name;
+        $email = $conducteurs->email;
+
+        $infractionName = $infraction->name;
+
+        $montant = $amande->montant;
+
+        $vehiculeMaque = $vehicule->marque;
+        $vehiculeModele = $vehicule->model;
+        $numMatricule = $vehicule->num_matricule;
+
+        DB::table('amandes')
+            ->where('id_vehicule', $vehicule->id)
+            ->update([
+                'code' => $code,
+                'token' => $token
+            ]);
+
+        $dateImm = new \DateTimeImmutable;
+        $dateTime = DateTime::createFromImmutable($dateImm);
+        $date = $dateTime->format('Y-m-d H:i:s');
+        //dd($date->format('Y-m-d H:i:s'));
+
+        $subject = "Veuillez procéder au paiement de votre contravention";
+        $message = view('mail.payment-link-prop')
+                    ->with([
+                        'name' => $name,  //on passe nos variables dans la vue
+                        'name_prop' => $proprietaire->name,
+                        'subject' => $subject,
+                        'code' => $code,
+                        'token' => $token, 
+                        'infractionName' => $infractionName,
+                        'montant' => $montant,
+                        'devise' => 'USD',
+                        'vehiculeMaque' => $vehiculeMaque,
+                        'vehiculeModele' => $vehiculeModele,
+                        'numMatricule' => $numMatricule,
+                        'time_date' => $date,
+            ]);
+
+        $this->sendHtmlEmail($subject, $proprietaire->email, $name, $message);
     }
 }

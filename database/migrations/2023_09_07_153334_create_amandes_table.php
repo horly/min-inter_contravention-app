@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('amandes', function (Blueprint $table) {
             $table->id();
-            $table->string('devise', 255);
+            $table->string('devise', 255)->nullable();
             $table->double('montant');
 
             $table->bigInteger('id_vehicule')->unsigned()->index();

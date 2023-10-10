@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::table('amandes', function (Blueprint $table) {
             //
-            $table->bigInteger('id_contre')->unsigned()->index();
-            $table->foreign('id_contre')
-                    ->references('id')->on('contrevenants')
+            $table->bigInteger('id_conduct')->unsigned()->index();
+            $table->foreign('id_conduct')
+                    ->references('id')->on('conducteurs')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
         });

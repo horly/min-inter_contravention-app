@@ -21,6 +21,9 @@
      <div class="border">
  
          <div class="p-4">
+
+            <a href="{{ route('app_vehicule_registration') }}" class="btn btn-primary mb-4" target="_blank" role="button"><i class="fa-solid fa-car"></i> Enregistrer un nouveau véhicule</a>
+
            <table class="table table-striped table-hover border bootstrap-datatable">
              <thead>
                  <th>N°</th>
@@ -31,35 +34,20 @@
                  <th>Action</th>
              </thead>
              <tbody>
-                @if (Auth::user()->role == "ADMIN")
-                    @foreach ($vehiculesAll as $vehicule)
-                        @php
-                            $typeV = DB::table('type_vehicules')->where('id', $vehicule->id_type)->first();
-                        @endphp
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $typeV->name }}</td>
-                            <td>{{ $vehicule->marque }}</td>
-                            <td>{{ $vehicule->model }}</td>
-                            <td>{{ $vehicule->num_matricule }}</td>
-                            <td><a href="{{ route('app_vehicule_info', ['num_matricule' => $vehicule->num_matricule]) }}">Voir</a></td>
-                        </tr>
-                    @endforeach
-                    @else
-                        @foreach ($vehiculesPoste as $vehicule)
-                            @php
-                                $typeV = DB::table('type_vehicules')->where('id', $vehicule->id_type)->first();
-                            @endphp
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $typeV->name }}</td>
-                                <td>{{ $vehicule->marque }}</td>
-                                <td>{{ $vehicule->model }}</td>
-                                <td>{{ $vehicule->num_matricule }}</td>
-                                <td><a href="{{ route('app_vehicule_info', ['num_matricule' => $vehicule->num_matricule]) }}">Voir</a></td>
-                            </tr>
-                        @endforeach
-                    @endif
+                @foreach ($vehiculesAll as $vehicule)
+                    @php
+                        $typeV = DB::table('type_vehicules')->where('id', $vehicule->id_type)->first();
+                    @endphp
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $typeV->name }}</td>
+                        <td>{{ $vehicule->marque }}</td>
+                        <td>{{ $vehicule->model }}</td>
+                        <td>{{ $vehicule->num_matricule }}</td>
+                        <td><a href="{{ route('app_vehicule_info', ['num_matricule' => $vehicule->num_matricule]) }}">Voir</a></td>
+                    </tr>
+                @endforeach
+                   
              </tbody>
            </table>
          </div>

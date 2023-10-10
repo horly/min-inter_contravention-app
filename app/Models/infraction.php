@@ -13,5 +13,7 @@ class Infraction extends Model
 
     protected $fillable = [
         'name',
+        'devise',
+        'price',
     ];
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FormDataContravention extends FormRequest
+class FormDataProprietaire extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,14 @@ class FormDataContravention extends FormRequest
     {
         return [
             //
-            'contre_name' => 'required|regex:/^[a-zA-Z ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ]+$/',
-            'contre_num_id' => 'required',
-            'contre_address' => 'required',
-            'contre_phone' => 'required',
-            'contre_email' => 'required|email',
+            'name_prop' => 'required|regex:/^[a-zA-Z ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ]+$/',
+            'mun_id_prop' => 'required',
+            'address_prop' => 'required',
+            'phone_prop' => 'required',
+            'email_prop' => 'required|email',
 
-            'infraction' => 'required',
-            'montant' => 'required|numeric',
+            //'infraction' => 'required',
+            //'montant' => 'required|numeric',
 
             'type_vehicule' => 'required',
             'marque' => 'required',
@@ -44,25 +44,25 @@ class FormDataContravention extends FormRequest
     {
         return [
             //
-            'contre_name.required' => "Le nom du contrevenant est obligatoire!",
-            'contre_name.regex' => "Veuillez saisir un nom valide S.V.P!",
+            'name_prop.required' => "Le nom du propriétaire est obligatoire!",
+            'name_prop.regex' => "Veuillez saisir un nom valide S.V.P!",
 
-            'contre_num_id.required' => "Le numéro de pièce d'identité du contrevenant est obligatoire!",
+            'mun_id_prop.required' => "Le numéro de pièce d'identité du propriétaire est obligatoire!",
 
-            'contre_address.required' => "L'adresse du contrevenant est obligatoire!",
+            'address_prop.required' => "L'adresse du propriétaire est obligatoire!",
 
-            'contre_phone.required' => "Le numéro de téléphone du contrevenant est obligatoire!",
+            'phone_prop.required' => "Le numéro de téléphone du propriétaire est obligatoire!",
 
-            'contre_email.required' => "L'émail du contrevenant est obligatoire!",
-            'contre_email.email' => "L'adresse émail saisi n'est pas valide!",
+            'email_prop.required' => "L'émail du propriétaire est obligatoire!",
+            'email_prop.email' => "L'adresse émail saisi n'est pas valide!",
             
             /**
              * Information sur l'infraction
              */
-            'infraction.required' => "Veuillez séléctionner une infraction!",
+            //'infraction.required' => "Veuillez séléctionner une infraction!",
 
-            'montant.required' => 'Veuillez mentionner le montant S.V.P!',
-            'montant.numeric' => 'Veuillez entrer un montant valide S.V.P!',
+            //'montant.required' => 'Veuillez mentionner le montant S.V.P!',
+            //'montant.numeric' => 'Veuillez entrer un montant valide S.V.P!',
 
             /**
              * Information sur le véhicule

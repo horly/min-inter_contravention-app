@@ -13,7 +13,7 @@
                             <small>Paiement de la contravention</small>
                         </div>
 
-                        <h3 class="text-center"><span class="badge bg-primary">{{ $amande->montant }} {{ $amande->devise }}</span></h3>
+                        <h3 class="text-center"><span class="badge bg-primary">{{ $amande->montant }} USD</span></h3>
                         
                         <form action="{{ route('app_mobile_payment_process') }}" method="POST">
                             @csrf
