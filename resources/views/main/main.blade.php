@@ -51,7 +51,7 @@
                   <td>{{ $user->name }}</td>
                   <td>{{ $conducteur->name }}</td>
                   <td>{{ (strlen($infraction->name) > 23) ? substr($infraction->name,0,20).'...' : $infraction->name }}</td>
-                  <td class="text-end">{{ $amande->montant }} {{ $amande->devise }}</td>
+                  <td class="text-end">{{ $amande->montant }} USD</td>
                   <td>
                       @if ($amande->status == "NO_PAIED")
                         <p class="text-danger"><i class="fa-solid fa-circle-xmark"></i> Non payé</p>
